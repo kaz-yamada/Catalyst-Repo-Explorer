@@ -1,4 +1,4 @@
-export const filterOptionsList = [
+export const FILTER_OPTIONS = [
   {
     label: "All",
     value: "all",
@@ -16,7 +16,7 @@ export const filterOptionsList = [
   },
 ];
 
-export const sortOptionsList = [
+export const SORT_OPTIONS = [
   {
     name: "Created: Newest",
     value: "created-asc",
@@ -34,12 +34,12 @@ export const sortOptionsList = [
     value: "updated-desc",
   },
   {
-    name: "Name",
+    name: "Name: A-z",
     value: "name-asc",
     selected: true,
   },
   {
-    name: "Name",
+    name: "Name: Z-a",
     value: "name-desc",
   },
 ];

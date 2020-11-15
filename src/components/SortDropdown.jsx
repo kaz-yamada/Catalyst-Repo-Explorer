@@ -1,14 +1,10 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 
-import { sortOptionsList } from "../data/constants";
+import { SORT_OPTIONS } from "../data/constants";
 
-const SortDropdown = ({ onChange }) => {
-  const [sortOption, setSortOption] = useState(sortOptionsList[0].value);
-
+const SortDropdown = ({ onChange, selected }) => {
   const handleChange = (e) => {
     const { value } = e.target;
-
-    setSortOption(value);
     if (onChange) onChange(value);
   };
 
@@ -17,15 +13,20 @@ const SortDropdown = ({ onChange }) => {
       data-testid="sort-dropdown"
       id="sort-dropdown"
       onChange={handleChange}
-      defaultValue={sortOption}
+      defaultValue={selected}
     >
-      {sortOptionsList.map(({ name, value }) => (
+      {SORT_OPTIONS.map(({ name, value }) => (
         <option key={value} value={value}>
           {name}
         </option>
       ))}
     </select>
   );
+};
+
+SortDropdown.propTypes = {
+  onChange: PropTypes.func,
+  selected: PropTypes.string,
 };
 
 export default SortDropdown;

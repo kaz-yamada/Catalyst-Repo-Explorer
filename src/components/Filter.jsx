@@ -1,19 +1,16 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 
-import { filterOptionsList } from "../data/constants";
+import { FILTER_OPTIONS } from "../data/constants";
 
-const Filter = ({ onChange }) => {
-  const [filterOption, setFilterOption] = useState(filterOptionsList[0].value);
-
-  const handleFilterClick = (e) => {
+const Filter = ({ onChange, checked }) => {
+  const handleClick = (e) => {
     const { value } = e.currentTarget;
-    setFilterOption(value);
     if (onChange) onChange(value);
   };
 
   return (
     <div>
-      {filterOptionsList.map(({ label, value, id }) => (
+      {FILTER_OPTIONS.map(({ label, value, id }) => (
         <label key={id} htmlFor={id}>
           <input
             type="radio"
@@ -21,14 +18,19 @@ const Filter = ({ onChange }) => {
             id={id}
             data-testid={id}
             value={value}
-            checked={filterOption === value}
-            onChange={handleFilterClick}
+            checked={checked === value}
+            onChange={handleClick}
           />
           {label}
         </label>
       ))}
     </div>
   );
+};
+
+Filter.propTypes = {
+  onChange: PropTypes.func,
+  checked: PropTypes.string,
 };
 
 export default Filter;
