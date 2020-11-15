@@ -1,4 +1,4 @@
-const RepositoryList = ({ data }) => {
+const RepositoryList = ({ data, sort, filter }) => {
   return (
     <div>
       <div data-testid="list">

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import RepositoryList from ".";
+import RepositoryList from "../components/RepositoryList";
 
 const testrepos = [
   {

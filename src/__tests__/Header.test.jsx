@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Header from ".";
+import Header from "../components/Header";
 
 describe("Header component", () => {
   test("should render an organization's information correctly", () => {
