@@ -4,8 +4,8 @@ import starFill24 from "@iconify-icons/octicon/star-fill-24";
 import eye16 from "@iconify-icons/octicon/eye-16";
 import PropTypes from "prop-types";
 
-const RepositoryListItem = ({ data, onContributorsCliked }) => (
-  <div key={data.name} data-testid="item">
+const RepositoryListItem = ({ data, onContributorsClicked }) => (
+  <div data-testid="item">
     <h2 className="name">{data.name}</h2>
     <div className="meta">
       <span>
@@ -25,15 +25,20 @@ const RepositoryListItem = ({ data, onContributorsCliked }) => (
     <div className="links">
       <a
         className="button"
-        href={data.html_url}
         target="_blank"
         rel="noreferrer"
+        href={data.html_url}
       >
         Source
       </a>
       <button
         className="button"
-        onClick={() => onContributorsCliked(data.contributors_url)}
+        onClick={() =>
+          onContributorsClicked({
+            name: data.name,
+            url: data.contributors_url,
+          })
+        }
       >
         Top Contributors
       </button>
@@ -53,7 +58,7 @@ RepositoryListItem.propTypes = {
     contributors_url: PropTypes.string,
     license: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
-  onContributorsCliked: PropTypes.func,
+  onContributorsClicked: PropTypes.func,
 };
 
 export default memo(RepositoryListItem);

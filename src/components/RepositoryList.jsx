@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import RepositoryListItem from "./RepositoryListItem";
 
-const RepositoryList = ({ data, onContributorsCliked }) => {
+const RepositoryList = ({ data, onContributorsClicked }) => {
   if (!data || !data.length) return <div></div>;
 
   return (
@@ -11,7 +11,7 @@ const RepositoryList = ({ data, onContributorsCliked }) => {
           <RepositoryListItem
             key={item.name}
             data={item}
-            onContributorsCliked={onContributorsCliked}
+            onContributorsClicked={onContributorsClicked}
           />
         ))}
       </div>
@@ -33,7 +33,7 @@ RepositoryList.propTypes = {
       license: PropTypes.objectOf(PropTypes.string),
     })
   ).isRequired,
-  onContributorsCliked: PropTypes.func,
+  onContributorsClicked: PropTypes.func,
 };
 
 export default RepositoryList;

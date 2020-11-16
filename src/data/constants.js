@@ -1,14 +1,3 @@
-export const BASE_URL = "https://api.github.com/orgs/catalyst";
-
-export const API_URL = {
-  org: "https://api.github.com/orgs/catalyst",
-  repos: "https://api.github.com/orgs/catalyst/repos",
-};
-
-export const STORAGE_KEYS = {
-  org: "",
-};
-
 export const FILTER_OPTIONS = [
   {
     label: "All",

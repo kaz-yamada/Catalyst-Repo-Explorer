@@ -5,13 +5,13 @@ import linkExternal16 from "@iconify-icons/octicon/link-external-16";
 import markGithub16 from "@iconify-icons/octicon/mark-github-16";
 import mapMarker from "@iconify-icons/el/map-marker";
 
-import { fetchOrgData } from "../api/githubApi";
+import { fetchGithubApi } from "../api/githubApi";
 
 const Header = () => {
   const [data, setData] = useState({});
 
   const fetchData = async () => {
-    const res = await fetchOrgData();
+    const res = await fetchGithubApi();
     setData(await res.json());
   };
 

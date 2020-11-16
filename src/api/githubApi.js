@@ -1,5 +1,4 @@
-import { BASE_URL } from "../data/constants";
-
+const BASE_URL = "https://api.github.com/orgs/catalyst";
 const TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
 const config = {
@@ -9,43 +8,30 @@ const config = {
   }),
 };
 
-export const fetchOrgData = () => fetch(BASE_URL, config);
-
-export const fetchGithubApi = (params) => {
-  const url = getUrl(params);
-  return fetch(url, config);
-};
-
-/**
- * Create url with parameters
- * @param {Object} param0
- */
-export const getUrl = ({ page, sort, type }) => {
+export const fetchGithubApi = (url = BASE_URL) => fetch(url, config);
+export const fetchApiWithParams = ({ page, sort, type }) => {
   const url = new URL(`${BASE_URL}/repos`);
   const params = {};
 
   if (page) params["page"] = page;
+  if (type) params["type"] = type;
   if (sort) {
     const [sortType, direction] = sort.split("-");
     params["sort"] = sortType;
     params["direction"] = direction;
   }
-  if (type) params["type"] = type;
 
   url.search = new URLSearchParams(params).toString();
 
-  return url;
+  return fetch(url, config);
 };
 
 /**
- * @typedef {Object} headerLinks
- * @property {array} links
- * @property {number} totalPages
  *
  * Get the link urls from the github response header
  * @param {string} header
  *
- * @returns {headerLinks}
+ * @returns {number}
  */
 export const parseHeaderLinks = (headerString, currentPage) => {
   const arr = headerString.split(",");
@@ -60,10 +46,7 @@ export const parseHeaderLinks = (headerString, currentPage) => {
     links[name] = url;
   });
 
-  let totalPages = currentPage;
-  if (links["last"]) totalPages = getPageNumber(links["last"]);
-
-  return totalPages;
+  return links["last"] ? getPageNumber(links["last"]) : currentPage;
 };
 
 /**
