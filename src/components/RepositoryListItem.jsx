@@ -23,7 +23,12 @@ const RepositoryListItem = ({ data, onContributorsCliked }) => (
       <p className="description">{data.description}</p>
     </div>
     <div className="links">
-      <a className="button" href={data.html_url}>
+      <a
+        className="button"
+        href={data.html_url}
+        target="_blank"
+        rel="noreferrer"
+      >
         Source
       </a>
       <button

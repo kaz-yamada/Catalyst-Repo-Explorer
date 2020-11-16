@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import Filter from "../components/Filter";
+import Filter from "../../components/Filter";
 
 describe("Filter and sort options component", () => {
   test("changes value when forked filter button is clicked", () => {

@@ -1,46 +1,71 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import Filter from "./Filter";
 import Header from "./Header";
 import SortDropdown from "./SortDropdown";
+import Pagination from "./Pagination";
 import RepositoryList from "./RepositoryList";
-import { filterOptionsList, sortOptionsList } from "../data/constants";
+
+import { FILTER_OPTIONS, SORT_OPTIONS } from "../data/constants";
+import useFetchRepos, { ACTIONS } from "../hooks/useFetchRepos";
 
 const App = () => {
-  const [orgData, setOrgData] = useState(null);
-  const [filterOption, setFilterOption] = useState(filterOptionsList[0].value);
-  const [sortOption, setSortOption] = useState(sortOptionsList[0].value);
-  const [repos, setRepos] = useState([]);
+  const [filterOption, setFilterOption] = useState(FILTER_OPTIONS[0].value);
+  const [sortOption, setSortOption] = useState(SORT_OPTIONS[0].value);
+  const [page, setPage] = useState(1);
   const [openContributors, setOpenContributors] = useState("");
 
-  useEffect(() => {}, []);
+  const { state } = useFetchRepos({
+    page,
+    type: filterOption,
+    sort: sortOption,
+  });
 
+  const resetPagination = () => setPage(1);
+
+  const { status, error, data, totalPages } = state;
+
+  if (error) return <div>{JSON.stringify(error)}</div>;
   return (
     <div className="App">
-      <Header data={orgData} />
-      <div className="options">
-        <div className="filter">
+      <Header />
+      <>
+        <div className="options">
           <Filter
-            onChange={(value) => setFilterOption(value)}
+            onChange={(value) => {
+              resetPagination();
+              setFilterOption(value);
+            }}
             checked={filterOption}
+            disabled={status === ACTIONS.success}
           />
-        </div>
-        <div className="sort">
           <SortDropdown
-            onChange={(value) => setSortOption(value)}
+            onChange={(value) => {
+              resetPagination();
+              setSortOption(value);
+            }}
             selected={sortOption}
+            disabled={status === ACTIONS.success}
+          />
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onChange={(value) => setPage(value)}
+            disabled={status === ACTIONS.success}
           />
         </div>
-      </div>
-
-      <div className="list">
-        <RepositoryList
-          data={repos}
-          filterBy={filterOption}
-          sortBy={sortOption}
-          onContributorsCliked={(url) => setOpenContributors(url)}
-        />
-      </div>
+        <div className="list">
+          <span className="message">{status !== "SUCCESS" && status}</span>
+          {data && (
+            <RepositoryList
+              data={data}
+              filterBy={filterOption}
+              sortBy={sortOption}
+              onContributorsCliked={(url) => setOpenContributors(url)}
+            />
+          )}
+        </div>
+      </>
     </div>
   );
 };

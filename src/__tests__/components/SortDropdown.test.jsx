@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
-import SortDropdown from "../components/SortDropdown";
+import SortDropdown from "../../components/SortDropdown";
 
 describe("Sort dropdown component", () => {
   test("triggers function on sort option", () => {

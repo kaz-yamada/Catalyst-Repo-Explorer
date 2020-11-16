@@ -1,3 +1,14 @@
+export const BASE_URL = "https://api.github.com/orgs/catalyst";
+
+export const API_URL = {
+  org: "https://api.github.com/orgs/catalyst",
+  repos: "https://api.github.com/orgs/catalyst/repos",
+};
+
+export const STORAGE_KEYS = {
+  org: "",
+};
+
 export const FILTER_OPTIONS = [
   {
     label: "All",
@@ -11,7 +22,7 @@ export const FILTER_OPTIONS = [
   },
   {
     label: "Not Forked",
-    value: "not-forked",
+    value: "sources",
     id: "filter-not-forked",
   },
 ];
@@ -19,24 +30,23 @@ export const FILTER_OPTIONS = [
 export const SORT_OPTIONS = [
   {
     name: "Created: Newest",
-    value: "created-asc",
-  },
-  {
-    name: "Created: Oldest",
     value: "created-desc",
   },
   {
+    name: "Created: Oldest",
+    value: "created-asc",
+  },
+  {
     name: "Update: Newest",
-    value: "updated-asc",
+    value: "updated-desc",
   },
   {
     name: "Updated: Oldest",
-    value: "updated-desc",
+    value: "updated-asc",
   },
   {
     name: "Name: A-z",
     value: "name-asc",
-    selected: true,
   },
   {
     name: "Name: Z-a",

@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import RepositoryListItem from "./RepositoryListItem";
 
 const RepositoryList = ({ data, onContributorsCliked }) => {
+  if (!data || !data.length) return <div></div>;
+
   return (
     <div>
       <div data-testid="list">

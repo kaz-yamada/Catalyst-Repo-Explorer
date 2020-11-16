@@ -1,13 +1,25 @@
+import { useEffect, useState } from "react";
 import { InlineIcon } from "@iconify/react";
 import repoIcon from "@iconify-icons/octicon/repo";
 import linkExternal16 from "@iconify-icons/octicon/link-external-16";
 import markGithub16 from "@iconify-icons/octicon/mark-github-16";
 import mapMarker from "@iconify-icons/el/map-marker";
 
-import PropTypes from "prop-types";
+import { fetchOrgData } from "../api/githubApi";
 
-const Header = ({ data }) => {
-  if (!data) return <div></div>;
+const Header = () => {
+  const [data, setData] = useState({});
+
+  const fetchData = async () => {
+    const res = await fetchOrgData();
+    setData(await res.json());
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (!data) return <div data-testid="loading">...Loading</div>;
 
   const { name, public_repos, location, description, blog, html_url } = data;
 
@@ -44,14 +56,4 @@ const Header = ({ data }) => {
   );
 };
 
-Header.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string,
-    public_repos: PropTypes.number,
-    location: PropTypes.string,
-    description: PropTypes.string,
-    blog: PropTypes.string,
-    html_url: PropTypes.string,
-  }),
-};
 export default Header;
