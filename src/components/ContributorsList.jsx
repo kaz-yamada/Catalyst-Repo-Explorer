@@ -21,6 +21,7 @@ const ContributorsList = ({ name, url, onClose }) => {
           setLoading(false);
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 
   if (isLoading)

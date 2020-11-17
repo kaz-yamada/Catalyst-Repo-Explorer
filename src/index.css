@@ -186,12 +186,18 @@ h6 {
   padding: 2px;
 }
 
-.sort select {
-  margin-left: 8px;
+.sort .option-label {
+  margin-right: 8px;
 }
 
 .pagination select {
   margin-right: 8px;
+}
+
+.repository-list .meta {
+  width: 100%;
+  display: flex;
+  flex-flow: wrap;
 }
 
 .repository-list .meta span {
@@ -200,6 +206,7 @@ h6 {
   border-radius: 8px;
   margin-right: 8px;
   padding: 6px 10px;
+  margin-bottom: 8px;
 }
 
 .repository-list .meta svg {
@@ -210,6 +217,10 @@ h6 {
   border-bottom: solid 1px #525252;
   padding: 16px 0;
   margin-bottom: 16px;
+}
+
+.repository-list .repository .links {
+  display: flex;
 }
 
 .repository-list .repository .links .button {
@@ -242,6 +253,7 @@ h6 {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 16px;
+  align-items: center;
 }
 
 .contributors-list a {
@@ -296,4 +308,46 @@ button:hover {
 }
 
 @media only screen and (max-width: 768px) {
+  .header .button {
+    width: 100%;
+  }
+
+  .header .button:last-child {
+    margin-top: 8px;
+  }
+
+  .option-label {
+    display: none;
+  }
+
+  .options {
+    font-size: 12px;
+  }
+
+  .filter label .radio-container {
+    padding-left: 22px;
+    padding-right: 10px;
+  }
+
+  .filter .checkmark {
+    top: 3px;
+    left: 2px;
+  }
+
+  .repository .description {
+    word-wrap: break-word;
+  }
+
+  .repository-list .repository .links {
+    text-align: center;
+    flex-flow: column;
+  }
+
+  .repository .button:last-child {
+    margin-top: 8px;
+  }
+
+  .contributors-list .contributors {
+    flex-flow: column;
+  }
 }
