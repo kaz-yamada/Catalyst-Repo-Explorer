@@ -18,6 +18,7 @@ const RepositoryListItem = ({ data, onContributorsClicked }) => (
       </span>
       {data.language && <span>{data.language}</span>}
       {data.fork && <span>Forked</span>}
+      {data.license && <span>{data.license.name}</span>}
     </div>
     <div>
       <p className="description">{data.description}</p>
@@ -56,7 +57,13 @@ RepositoryListItem.propTypes = {
     stargazers_count: PropTypes.number,
     subscribers_count: PropTypes.number,
     contributors_url: PropTypes.string,
-    license: PropTypes.objectOf(PropTypes.string),
+    license: PropTypes.shape({
+      key: PropTypes.string,
+      name: PropTypes.string,
+      spdx_id: PropTypes.string,
+      url: PropTypes.string,
+      node_id: PropTypes.string,
+    }),
   }).isRequired,
   onContributorsClicked: PropTypes.func,
 };

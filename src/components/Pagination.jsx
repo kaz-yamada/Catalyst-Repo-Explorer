@@ -6,8 +6,6 @@ const Pagination = ({ currentPage, disabled, onChange, totalPages }) => {
     if (onChange) onChange(parseInt(value));
   };
 
-  console.log(currentPage);
-
   return (
     <div className="pagination option-container">
       <select

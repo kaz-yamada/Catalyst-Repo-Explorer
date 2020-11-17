@@ -29,8 +29,6 @@ const App = () => {
 
   if (error) return <div>{JSON.stringify(error)}</div>;
 
-  console.log(page);
-
   return (
     <div className={`App ${contributiors.url ? "modal-open" : ""}`}>
       <Header />
@@ -59,7 +57,7 @@ const App = () => {
         />
       </div>
       <div className="container list">
-        <span className="message">{status !== ACTIONS.success && status}</span>
+        {status === ACTIONS.fetching && <div className="loader"></div>}
         {data && (
           <RepositoryList
             data={data}

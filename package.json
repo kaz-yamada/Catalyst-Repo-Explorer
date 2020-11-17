@@ -2,6 +2,7 @@
   "name": "catalyst-repo-explorer",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://kaz-yamada.github.io/Catalyst-Repo-Explorer",
   "dependencies": {
     "@iconify-icons/octicon": "^1.0.2",
     "@testing-library/jest-dom": "^5.11.4",
@@ -19,6 +20,8 @@
     "msw": "^0.21.3"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

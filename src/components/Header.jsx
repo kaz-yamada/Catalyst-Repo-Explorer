@@ -9,52 +9,62 @@ import { fetchGithubApi } from "../api/githubApi";
 
 const Header = () => {
   const [data, setData] = useState({});
-
-  const fetchData = async () => {
-    const res = await fetchGithubApi();
-    setData(await res.json());
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!isLoading) {
+      setIsLoading(true);
 
-  if (!data) return <div data-testid="loading">...Loading</div>;
+      fetchGithubApi()
+        .then((res) => res.json())
+        .then((json) => {
+          setIsLoading(false);
+          setData(json);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { name, public_repos, location, description, blog, html_url } = data;
 
   return (
     <div className="header container">
-      <div className="titles">
-        <h1 data-testid="name" className="name">
-          {name}
-        </h1>
-        <p data-testid="description" className="description">
-          {description}
-        </p>
-      </div>
-      <div className="info">
-        <div className="repos">
-          <InlineIcon icon={repoIcon} />
-          <div>
-            Repositories: <span data-testid="repos">{public_repos}</span>
+      {data === {} || isLoading ? (
+        <div className="loader"></div>
+      ) : (
+        <>
+          <div className="row titles">
+            <h1 data-testid="name" className="name">
+              {name}
+            </h1>
+            <p data-testid="description" className="description">
+              {description}
+            </p>
           </div>
-        </div>
-        <div className="location">
-          <InlineIcon icon={mapMarker} />
-          <div data-testid="location">{location}</div>
-        </div>
-      </div>
-      <div className="links">
-        <a className="button" href={html_url}>
-          <InlineIcon icon={markGithub16} />
-          <span>{html_url}</span>
-        </a>
-        <a href={blog} className="button">
-          <InlineIcon icon={linkExternal16} />
-          <span>{blog}</span>
-        </a>
-      </div>
+          <div className="row info">
+            <div className="repos">
+              <InlineIcon icon={repoIcon} />
+              <div>
+                Repositories: <span data-testid="repos">{public_repos}</span>
+              </div>
+            </div>
+            <div className="location">
+              <InlineIcon icon={mapMarker} />
+              <div data-testid="location">{location}</div>
+            </div>
+          </div>
+          <div className="row links">
+            <a className="button" href={html_url}>
+              <InlineIcon icon={markGithub16} />
+              <span>{html_url}</span>
+            </a>
+            <a href={blog} className="button">
+              <InlineIcon icon={linkExternal16} />
+              <span>{blog}</span>
+            </a>
+          </div>
+        </>
+      )}
     </div>
   );
 };

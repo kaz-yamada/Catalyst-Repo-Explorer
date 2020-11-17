@@ -1,11 +1,13 @@
 const BASE_URL = "https://api.github.com/orgs/catalyst";
-const TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
+const TOKEN = process.env.REACT_APP_GITHUB_TOKEN || "";
 
 const config = {
-  headers: new Headers({
-    Authorization: `Bearer ${TOKEN}`,
-    "Content-Type": "application/json",
-  }),
+  headers: TOKEN
+    ? new Headers({
+        Authorization: `Bearer ${TOKEN}`,
+        "Content-Type": "application/json",
+      })
+    : new Headers({ "Content-Type": "application/json" }),
 };
 
 export const fetchGithubApi = (urlString = BASE_URL, params) => {

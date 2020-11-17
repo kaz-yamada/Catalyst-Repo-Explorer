@@ -17,7 +17,7 @@ const ContributorsList = ({ name, url, onClose }) => {
           setContributorsList(json);
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           setLoading(false);
         });
     }
