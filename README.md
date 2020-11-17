@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Adding your Github access token
 
-The app uses the Github REST API and requires a personal access token[https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token] to get past the API's rate limit. Once you have a personal access token, added to the .env file and add it to the variable: REACT_APP_GITHUB_TOKEN
+The app uses the Github REST API and requires a [Github personal access token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token) to get past the API's rate limit. Once you have a personal access token, added to the .env file and add it to the variable: REACT_APP_GITHUB_TOKEN
 
 ## Available Scripts
 
