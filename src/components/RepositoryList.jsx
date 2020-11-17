@@ -5,16 +5,14 @@ const RepositoryList = ({ data, onContributorsClicked }) => {
   if (!data || !data.length) return <div></div>;
 
   return (
-    <div>
-      <div data-testid="list">
-        {data.map((item) => (
-          <RepositoryListItem
-            key={item.name}
-            data={item}
-            onContributorsClicked={onContributorsClicked}
-          />
-        ))}
-      </div>
+    <div className="repository-list" data-testid="list">
+      {data.map((item) => (
+        <RepositoryListItem
+          key={item.name}
+          data={item}
+          onContributorsClicked={onContributorsClicked}
+        />
+      ))}
     </div>
   );
 };

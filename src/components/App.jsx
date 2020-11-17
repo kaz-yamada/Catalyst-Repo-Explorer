@@ -23,21 +23,29 @@ const App = () => {
     if (contributiors.url !== url) setContributiors({ name, url });
   };
 
+  const isDoneFetching = status !== ACTIONS.success;
+
+  const closeContributors = () => setContributiors({});
+
   if (error) return <div>{JSON.stringify(error)}</div>;
 
+  console.log(page);
+
   return (
-    <div className="App">
+    <div className={`App ${contributiors.url ? "modal-open" : ""}`}>
       <Header />
-      <div className="options">
+      <div className="container options">
         <Filter
+          checked={type}
+          disabled={isDoneFetching}
           onChange={(value) => {
             setPage(1);
             setFilterType(value);
           }}
-          checked={type}
         />
         <SortDropdown
           selected={sort}
+          disabled={isDoneFetching}
           onChange={(value) => {
             setPage(1);
             setSortOption(value);
@@ -46,10 +54,11 @@ const App = () => {
         <Pagination
           currentPage={page}
           totalPages={totalPages}
+          disabled={isDoneFetching}
           onChange={(value) => setPage(value)}
         />
       </div>
-      <div className="list">
+      <div className="container list">
         <span className="message">{status !== ACTIONS.success && status}</span>
         {data && (
           <RepositoryList
@@ -61,7 +70,11 @@ const App = () => {
         )}
       </div>
       {contributiors.url && (
-        <ContributorsList name={contributiors.name} url={contributiors.url} />
+        <ContributorsList
+          name={contributiors.name}
+          url={contributiors.url}
+          onClose={closeContributors}
+        />
       )}
     </div>
   );

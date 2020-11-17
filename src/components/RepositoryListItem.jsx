@@ -5,7 +5,7 @@ import eye16 from "@iconify-icons/octicon/eye-16";
 import PropTypes from "prop-types";
 
 const RepositoryListItem = ({ data, onContributorsClicked }) => (
-  <div data-testid="item">
+  <div className="repository" data-testid="item">
     <h2 className="name">{data.name}</h2>
     <div className="meta">
       <span>
@@ -14,10 +14,10 @@ const RepositoryListItem = ({ data, onContributorsClicked }) => (
       </span>
       <span>
         <InlineIcon icon={eye16} />
-        {data.subscribers_count}
+        {data.subscribers_count || 0}
       </span>
-      <span>{data.language}</span>
-      {data.fork || <span>Forked</span>}
+      {data.language && <span>{data.language}</span>}
+      {data.fork && <span>Forked</span>}
     </div>
     <div>
       <p className="description">{data.description}</p>

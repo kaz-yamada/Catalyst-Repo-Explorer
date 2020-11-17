@@ -1,18 +1,21 @@
 import PropTypes from "prop-types";
 
-const Pagination = ({ totalPages, currentPage, onChange }) => {
+const Pagination = ({ currentPage, disabled, onChange, totalPages }) => {
   const handleChange = (e) => {
     const { value } = e.target;
     if (onChange) onChange(parseInt(value));
   };
 
+  console.log(currentPage);
+
   return (
-    <div id="pagination">
+    <div className="pagination option-container">
       <select
         name="pagination"
         id="pagination-dropdown"
         onChange={handleChange}
         value={currentPage}
+        disabled={disabled}
       >
         {[...Array(totalPages)].map((_, i) => (
           <option key={i} value={i + 1}>
@@ -26,8 +29,9 @@ const Pagination = ({ totalPages, currentPage, onChange }) => {
 };
 
 Pagination.propTypes = {
-  totalPages: PropTypes.number,
   currentPage: PropTypes.number,
+  disabled: PropTypes.bool,
+  totalPages: PropTypes.number,
   onChange: PropTypes.func,
 };
 

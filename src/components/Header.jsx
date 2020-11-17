@@ -24,17 +24,20 @@ const Header = () => {
   const { name, public_repos, location, description, blog, html_url } = data;
 
   return (
-    <div>
+    <div className="header container">
       <div className="titles">
-        <h1 data-testid="name">{name}</h1>
-        <h3 data-testid="description">{description}</h3>
+        <h1 data-testid="name" className="name">
+          {name}
+        </h1>
+        <p data-testid="description" className="description">
+          {description}
+        </p>
       </div>
       <div className="info">
         <div className="repos">
           <InlineIcon icon={repoIcon} />
           <div>
-            Repositories:
-            <span data-testid="repos">{public_repos}</span>
+            Repositories: <span data-testid="repos">{public_repos}</span>
           </div>
         </div>
         <div className="location">

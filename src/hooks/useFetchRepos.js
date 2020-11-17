@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { fetchApiWithParams, parseHeaderLinks } from "../api/githubApi";
+import { fetchReposWithParams, parseHeaderLinks } from "../api/githubApi";
 
 const initialState = {
   status: "IDLE",
@@ -62,7 +62,7 @@ const useFetchRepos = ({ page, sort, type }) => {
       dispatch({ type: ACTIONS.fetching });
 
       try {
-        const res = await fetchApiWithParams({ page, sort, type });
+        const res = await fetchReposWithParams({ page, sort, type });
         const json = await res.json();
         let totalPages = parseHeaderLinks(res.headers.get("link"), page);
 

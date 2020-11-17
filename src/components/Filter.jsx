@@ -2,14 +2,15 @@ import PropTypes from "prop-types";
 
 import { FILTER_OPTIONS } from "../data/constants";
 
-const Filter = ({ onChange, checked }) => {
+const Filter = ({ onChange, checked, disabled }) => {
   const handleClick = (e) => {
     const { value } = e.currentTarget;
     if (onChange) onChange(value);
   };
 
   return (
-    <div>
+    <div className="filter option-container">
+      <span className="option-label">Filter</span>
       {FILTER_OPTIONS.map(({ label, value, id }) => (
         <label key={id} htmlFor={id}>
           <input
@@ -20,8 +21,12 @@ const Filter = ({ onChange, checked }) => {
             value={value}
             checked={checked === value}
             onChange={handleClick}
+            disabled={disabled}
           />
-          {label}
+          <div className="radio-container">
+            <span className="checkmark"></span>
+            <span className="radio-text">{label}</span>
+          </div>
         </label>
       ))}
     </div>
@@ -31,6 +36,7 @@ const Filter = ({ onChange, checked }) => {
 Filter.propTypes = {
   onChange: PropTypes.func,
   checked: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default Filter;

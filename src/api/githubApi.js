@@ -8,8 +8,16 @@ const config = {
   }),
 };
 
-export const fetchGithubApi = (url = BASE_URL) => fetch(url, config);
-export const fetchApiWithParams = ({ page, sort, type }) => {
+export const fetchGithubApi = (urlString = BASE_URL, params) => {
+  const url = new URL(urlString);
+  if (params) {
+    url.search = new URLSearchParams(params).toString();
+  }
+
+  return fetch(url, config);
+};
+
+export const fetchReposWithParams = ({ page, sort, type }) => {
   const url = new URL(`${BASE_URL}/repos`);
   const params = {};
 

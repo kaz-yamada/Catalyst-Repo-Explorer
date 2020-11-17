@@ -1,11 +1,299 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
   margin: 0;
+  height: 100%;
+  min-height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  margin: 0 0 1rem;
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+  background-color: #525252;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 0 0 16px;
+}
+
+.header > div {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 16px;
+}
+
+.header .info > div {
+  display: flex;
+  margin: 0;
+  font-size: 18px;
+  align-items: center;
+}
+
+.header .info svg {
+  margin-right: 8px;
+  width: 22px;
+  height: 22px;
+}
+
+.header .info .repos {
+  margin-bottom: 16px;
+}
+
+.header .links {
+  flex-direction: row;
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.header .links .button {
+  display: flex;
+  margin-right: 8px;
+}
+
+.header .links .button svg {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+.options {
+  display: flex;
+  font-size: 16px;
+  align-self: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.options .option-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.options .filter .option-label {
+  margin-right: 8px;
+}
+
+.filter label {
+  display: block;
+  position: relative;
+  margin-right: 8px;
+  color: #004ec2;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.filter label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.filter label .radio-container {
+  position: relative;
+  border: solid 2px #004ec2;
+  border-radius: 16px;
+  padding: 5px 12px 4px 28px;
+}
+
+.checkmark {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: 18px;
+  width: 18px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  border: solid 2px #004ec2;
+}
+
+.filter label:hover input ~ .radio-container {
+  background-color: #004ec2;
+  color: #ffffff;
+}
+
+.filter label:hover input ~ .radio-container .checkmark {
+  background-color: #ffffff;
+}
+
+.filter label input:checked ~ .radio-container .checkmark {
+  background-color: #004ec2;
+  border-color: #ffffff;
+}
+
+.filter input:checked ~ .radio-container {
+  background-color: #004ec2;
+  color: #ffffff;
+}
+
+.filter label input:checked ~ .radio-container .checkmark:after {
+  display: block;
+}
+
+.filter label input:checked .radio-text {
+  color: #ffffff;
+}
+
+.filter label .checkmark:after {
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.filter label .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.option-container select {
+  font-size: 16px;
+  border-color: #525252;
+  border-radius: 4px;
+  border-width: 2px;
+  padding: 2px;
+}
+
+.sort select {
+  margin-left: 8px;
+}
+
+.pagination select {
+  margin-right: 8px;
+}
+
+.repository-list .meta span {
+  color: #ffffff;
+  background-color: #525252;
+  border-radius: 8px;
+  margin-right: 8px;
+  padding: 6px 10px;
+}
+
+.repository-list .meta svg {
+  margin-right: 4px;
+}
+
+.repository-list .repository {
+  border-bottom: solid 1px #525252;
+  padding: 16px 0;
+  margin-bottom: 16px;
+}
+
+.repository-list .repository .links .button {
+  margin-right: 8px;
+  cursor: pointer;
 }
 
 .contributors-list {
+  background: #ffffff;
   position: fixed;
+  left: 0;
   right: 0;
-  bottom: 0;
-  width: 300px;
-  height: 300px;
+  top: 12px;
+  margin: 16px;
+  border-radius: 8px;
+  padding: 16px;
+  width: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.contributors-list .repo-name {
+  display: block;
+  font-weight: bold;
+}
+
+.contributors-list .contributors {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.contributors-list a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 1px #004ec2;
+  padding: 8px;
+  margin: 8px;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.contributors-list a:hover {
+  background-color: #004ec2;
+}
+
+.contributors-list a:hover .contributor-name {
+  color: #ffffff;
+}
+
+.contributors-list a .contributor-name {
+  display: block;
+  color: #004ec2;
+  padding: 8px 0 0;
+}
+
+.contributors-list .contributor img {
+  border-radius: 50%;
+}
+
+.contributors-list .button {
+  cursor: pointer;
+}
+
+.button,
+button {
+  background-color: #004ec2;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border-width: 0;
+  color: #ffffff;
+  font-size: 16px;
+  border: solid 1px #004ec2;
+}
+
+.button:hover,
+button:hover {
+  color: #004ec2;
+  background-color: #ffffff;
+}
+
+@media only screen and (max-width: 768px) {
 }
