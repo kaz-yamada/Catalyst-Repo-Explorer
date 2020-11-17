@@ -94,6 +94,10 @@ h6 {
   margin-bottom: 8px;
 }
 
+.options .option-container:last-child {
+  margin-bottom: 0;
+}
+
 .options .filter .option-label {
   margin-right: 8px;
 }
@@ -324,9 +328,18 @@ button:hover {
     font-size: 12px;
   }
 
+  .options .option-container {
+    margin-bottom: 16px;
+  }
+
+  .options select {
+    font-size: 12px;
+  }
+
   .filter label .radio-container {
     padding-left: 22px;
     padding-right: 10px;
+    padding-top: 6px;
   }
 
   .filter .checkmark {
