@@ -5,27 +5,23 @@ import { fetchGithubApi } from "../api/githubApi";
 
 const ContributorsList = ({ name, url, onClose }) => {
   const [contributorsList, setContributorsList] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  //   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!isLoading) {
-      setLoading(true);
-      fetchGithubApi(url, { per_page: 5 })
-        .then((res) => res.json())
-        .then((json) => {
-          setLoading(false);
-          setContributorsList(json);
-        })
-        .catch((err) => {
-          console.error(err);
-          setLoading(false);
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url]);
+    let ignore = false;
+    const fetchContributors = async () => {
+      const res = await fetchGithubApi(url, { per_page: 5 });
+      const json = await res.json();
 
-  if (isLoading)
-    return <div className="contributors-list loading">Loading</div>;
+      if (!ignore) setContributorsList(json);
+    };
+
+    fetchContributors();
+
+    return () => {
+      ignore = true;
+    };
+  }, [url]);
 
   if (contributorsList && contributorsList.length)
     return (
@@ -50,7 +46,7 @@ const ContributorsList = ({ name, url, onClose }) => {
       </div>
     );
 
-  return <></>;
+  return <div className="contributors-list loading">Loading</div>;
 };
 
 ContributorsList.propTypes = {

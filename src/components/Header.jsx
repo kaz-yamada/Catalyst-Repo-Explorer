@@ -9,27 +9,28 @@ import { fetchGithubApi } from "../api/githubApi";
 
 const Header = () => {
   const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  //   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!isLoading) {
-      setIsLoading(true);
+    let ignore = false;
 
-      fetchGithubApi()
-        .then((res) => res.json())
-        .then((json) => {
-          setIsLoading(false);
-          setData(json);
-        });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchOrgData = async () => {
+      const res = await fetchGithubApi();
+      const json = await res.json();
+      if (!ignore) setData(json);
+    };
+
+    fetchOrgData();
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   const { name, public_repos, location, description, blog, html_url } = data;
 
   return (
     <div className="header container">
-      {data === {} || isLoading ? (
+      {data === {} ? (
         <div className="loader"></div>
       ) : (
         <>

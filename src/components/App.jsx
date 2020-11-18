@@ -57,8 +57,8 @@ const App = () => {
         />
       </div>
       <div className="container list">
-        {status === ACTIONS.fetching && <div className="loader"></div>}
-        {data && (
+        {isDoneFetching && <div className="loader"></div>}
+        {!isDoneFetching && data && (
           <RepositoryList
             data={data}
             filterBy={type}
