@@ -4,16 +4,20 @@ import PropTypes from "prop-types";
 import { fetchGithubApi } from "../api/githubApi";
 
 const ContributorsList = ({ name, url, onClose }) => {
+  const [isFetching, setIsFetching] = useState(false);
   const [contributorsList, setContributorsList] = useState([]);
-  //   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     let ignore = false;
+
     const fetchContributors = async () => {
+      setIsFetching(true);
       const res = await fetchGithubApi(url, { per_page: 5 });
       const json = await res.json();
 
       if (!ignore) setContributorsList(json);
+
+      setIsFetching(false);
     };
 
     fetchContributors();
@@ -23,13 +27,15 @@ const ContributorsList = ({ name, url, onClose }) => {
     };
   }, [url]);
 
-  if (contributorsList && contributorsList.length)
+  if (!isFetching && contributorsList && contributorsList.length)
     return (
       <div className="contributors-list">
-        <h3 className="repo-title">
-          Contributors for:
-          <span className="repo-name">{name}</span>
-        </h3>
+        <div className="contributors-header">
+          <h3>
+            Top contributors for:
+            <span className="repo-name">{name}</span>
+          </h3>
+        </div>
         <div className="contributors">
           {contributorsList.map(({ login, html_url, avatar_url }) => (
             <div className="contributor" key={html_url}>
@@ -46,7 +52,11 @@ const ContributorsList = ({ name, url, onClose }) => {
       </div>
     );
 
-  return <div className="contributors-list loading">Loading</div>;
+  return (
+    <div className="contributors-list">
+      <div className="loader"></div>
+    </div>
+  );
 };
 
 ContributorsList.propTypes = {

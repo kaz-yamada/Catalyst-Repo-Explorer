@@ -260,15 +260,27 @@ h6 {
   position: fixed;
   left: 0;
   right: 0;
-  top: 12px;
+  top: 16px;
   margin: 16px;
   border-radius: 8px;
-  padding: 16px;
   width: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
   text-align: center;
+  padding-bottom: 16px;
+}
+
+.contributors-list .contributors-header {
+  background-color: #525252;
+  color: #ffffff;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.contributors-list .contributors-header h3 {
+  margin: 0;
 }
 
 .contributors-list .repo-name {
@@ -281,6 +293,7 @@ h6 {
   flex-wrap: wrap;
   margin-bottom: 16px;
   align-items: center;
+  margin-bottom: 16px;
 }
 
 .contributors-list a {
