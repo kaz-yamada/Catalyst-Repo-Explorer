@@ -1,5 +1,5 @@
-import { useEffect, useReducer } from "react";
-import { fetchReposWithParams, parseHeaderLinks } from "../api/githubApi";
+import { useEffect, useReducer, useRef } from "react";
+import { createUrl, fetchRepos, parseHeaderLinks } from "../api/githubApi";
 
 const initialState = {
   status: "IDLE",
@@ -28,6 +28,7 @@ const fetchReducer = (state, action) => {
         data: action.payload.data,
         type: action.payload.type,
         sort: action.payload.sort,
+        totalPages: action.payload.totalPages,
       };
     case ACTIONS.updateTotalPages:
       return {
@@ -51,14 +52,20 @@ const fetchReducer = (state, action) => {
  * @property {number} page
  * @property {string} sort
  * @property {string} type
+ *
+ * @typedef {Object} State
+ * @property {}
  */
 
 /**
  *
  * @param {Params} params
+ *
+ * @return {State}
  */
 const useFetchRepos = ({ page, sort, type }) => {
   const [state, dispatch] = useReducer(fetchReducer, initialState);
+  const cache = useRef({});
 
   useEffect(() => {
     let cancelRequest = false;
@@ -66,24 +73,33 @@ const useFetchRepos = ({ page, sort, type }) => {
     const fetchData = async () => {
       dispatch({ type: ACTIONS.fetching });
 
-      try {
-        const res = await fetchReposWithParams({ page, sort, type });
-        const json = await res.json();
+      const url = createUrl({ page, sort, type });
 
-        if (cancelRequest) return;
+      if (cache.current[url]) {
+        const cachedData = cache.current[url];
         dispatch({
           type: ACTIONS.success,
-          payload: { data: json, sort, type },
+          payload: cachedData,
         });
+      } else {
+        try {
+          const res = await fetchRepos(url);
+          const json = await res.json();
+          const totalPages = parseHeaderLinks(res.headers.get("link"), page);
 
-        const totalPages = parseHeaderLinks(res.headers.get("link"), page);
-        dispatch({
-          type: ACTIONS.updateTotalPages,
-          payload: { totalPages },
-        });
-      } catch (error) {
-        if (cancelRequest) return;
-        dispatch({ type: ACTIONS.error, payload: error.message });
+          const data = { data: json, sort, type, totalPages };
+
+          cache.current[url] = data;
+
+          if (cancelRequest) return;
+          dispatch({
+            type: ACTIONS.success,
+            payload: data,
+          });
+        } catch (error) {
+          if (cancelRequest) return;
+          dispatch({ type: ACTIONS.error, payload: error.message });
+        }
       }
     };
     fetchData();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Filter from "./Filter";
 import Header from "./Header";
@@ -16,6 +16,10 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [contributiors, setContributiors] = useState({});
 
+  const [isSticky, setIsSticky] = useState(false);
+
+  const ref = useRef(null);
+
   const { state } = useFetchRepos({ page, sort, type });
   const { status, error, data, totalPages } = state;
 
@@ -27,10 +31,23 @@ const App = () => {
 
   const closeContributors = () => setContributiors({});
 
+  const handleScroll = () => {
+    if (ref.current) {
+      setIsSticky(ref.current.getBoundingClientRect().top <= 0);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", () => handleScroll);
+    };
+  }, []);
+
   if (error) return <div>{JSON.stringify(error)}</div>;
 
   return (
-    <div className={`App ${contributiors.url ? "modal-open" : ""}`}>
+    <div className={`App ${contributiors.url ? "contributors-open" : ""}`}>
       <Header />
       <div className="container options">
         <Filter
@@ -56,24 +73,28 @@ const App = () => {
           onChange={(value) => setPage(value)}
         />
       </div>
-      <div className="container list">
-        {isDoneFetching && <div className="loader"></div>}
-        {!isDoneFetching && data && (
-          <RepositoryList
-            data={data}
-            filterBy={type}
-            sortBy={sort}
-            onContributorsClicked={handleContributorClick}
-          />
+      <div className="main-content" ref={ref}>
+        <div className="container list">
+          {isDoneFetching && <div className="loader"></div>}
+          {!isDoneFetching && data && (
+            <RepositoryList
+              data={data}
+              filterBy={type}
+              sortBy={sort}
+              onContributorsClicked={handleContributorClick}
+            />
+          )}
+        </div>
+        {contributiors.url && (
+          <div className={`${isSticky ? "sticky" : ""} contributors-container`}>
+            <ContributorsList
+              name={contributiors.name}
+              url={contributiors.url}
+              onClose={closeContributors}
+            />
+          </div>
         )}
       </div>
-      {contributiors.url && (
-        <ContributorsList
-          name={contributiors.name}
-          url={contributiors.url}
-          onClose={closeContributors}
-        />
-      )}
     </div>
   );
 };

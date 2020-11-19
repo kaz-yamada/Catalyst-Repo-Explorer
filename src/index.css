@@ -217,6 +217,16 @@ h6 {
   margin-right: 8px;
 }
 
+.main-content {
+  position: relative;
+  display: flex;
+}
+
+.list {
+  /* width: 65%; */
+  position: relative;
+}
+
 .repository-list .meta {
   width: 100%;
   display: flex;
@@ -255,20 +265,26 @@ h6 {
   cursor: pointer;
 }
 
+.contributors-container {
+  position: absolute;
+  width: 480px;
+  top: 0;
+  right: 0;
+}
+
+.sticky.contributors-container {
+  margin: 0 16px; 
+}
+
 .contributors-list {
   background: #ffffff;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 16px;
-  margin: 16px;
   border-radius: 8px;
-  width: auto;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   text-align: center;
   padding-bottom: 16px;
+  width: 100%;
 }
 
 .contributors-list .contributors-header {
@@ -290,10 +306,9 @@ h6 {
 
 .contributors-list .contributors {
   display: flex;
-  flex-wrap: wrap;
   margin-bottom: 16px;
+  flex-flow: column;
   align-items: center;
-  margin-bottom: 16px;
 }
 
 .contributors-list a {
@@ -345,6 +360,11 @@ button {
 button:hover {
   color: #004ec2;
   background-color: #ffffff;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
 }
 
 .loader {
@@ -402,6 +422,11 @@ button:hover {
     left: 2px;
   }
 
+  .list {
+    position: relative;
+    width: 100%;
+  }
+
   .repository .description {
     word-wrap: break-word;
   }
@@ -415,7 +440,12 @@ button:hover {
     margin-top: 8px;
   }
 
-  .contributors-list .contributors {
-    flex-flow: column;
+  .contributors-container {
+    position: fixed;
+    width: 100%;
+  }
+
+  .contributors-container .contributors-list {
+    width: 100%;
   }
 }

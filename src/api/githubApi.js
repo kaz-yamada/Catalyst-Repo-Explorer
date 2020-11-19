@@ -19,6 +19,25 @@ export const fetchGithubApi = (urlString = BASE_URL, params) => {
   return fetch(url, config);
 };
 
+export const createUrl = ({ page, sort, type }) => {
+  const url = new URL(`${BASE_URL}/repos`);
+  const params = {};
+
+  if (page) params["page"] = page;
+  if (type) params["type"] = type;
+  if (sort) {
+    const [sortType, direction] = sort.split("-");
+    params["sort"] = sortType;
+    params["direction"] = direction;
+  }
+
+  url.search = new URLSearchParams(params).toString();
+
+  return url;
+};
+
+export const fetchRepos = (url) => fetch(url, config);
+
 export const fetchReposWithParams = ({ page, sort, type }) => {
   const url = new URL(`${BASE_URL}/repos`);
   const params = {};
