@@ -29,7 +29,7 @@ const ContributorsList = ({ name, url, onClose }) => {
 
   if (!isFetching && contributorsList && contributorsList.length)
     return (
-      <div className="contributors-list">
+      <div className="contributors-list" data-testid="contributors-list">
         <div className="contributors-header">
           <h3>
             Top contributors for:
@@ -53,7 +53,7 @@ const ContributorsList = ({ name, url, onClose }) => {
     );
 
   return (
-    <div className="contributors-list">
+    <div className="contributors-list" data-testid="contributors-list">
       <div className="loader"></div>
     </div>
   );

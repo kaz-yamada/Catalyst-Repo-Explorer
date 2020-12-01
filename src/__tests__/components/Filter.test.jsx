@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import Filter from "../../components/Filter";
 
@@ -6,7 +6,7 @@ describe("Filter and sort options component", () => {
   test("changes value when forked filter button is clicked", () => {
     const handleChange = jest.fn();
     const { rerender } = render(
-      <Filter onChange={handleChange} checked={"all"} />
+      <Filter onChange={handleChange} checked={"all"} disabled={false} />
     );
 
     const allRadioButton = screen.getByTestId("filter-all");
@@ -15,13 +15,18 @@ describe("Filter and sort options component", () => {
 
     expect(allRadioButton.checked).toEqual(true);
 
-    rerender(<Filter onChange={handleChange} checked={"forked"} />);
+    rerender(
+      <Filter onChange={handleChange} checked={"forked"} disabled={false} />
+    );
     expect(forkedRadioButton.checked).toEqual(true);
     expect(allRadioButton.checked).toEqual(false);
 
-    rerender(<Filter onChange={handleChange} checked={"not-forked"} />);
+    fireEvent.change(notForkedRadioButton, { target: { checked: true } });
     expect(notForkedRadioButton.checked).toEqual(true);
     expect(allRadioButton.checked).toEqual(false);
     expect(forkedRadioButton.checked).toEqual(false);
+
+    fireEvent.click(allRadioButton);
+    expect(handleChange).toBeCalled();
   });
 });

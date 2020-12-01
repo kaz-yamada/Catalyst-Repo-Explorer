@@ -5,7 +5,7 @@ const RepositoryList = ({ data, onContributorsClicked }) => {
   if (!data || !data.length) return <div></div>;
 
   return (
-    <div className="repository-list" data-testid="list">
+    <div className="repository-list" data-testid="repo-list">
       {data.map((item) => (
         <RepositoryListItem
           key={item.name}

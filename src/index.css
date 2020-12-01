@@ -213,6 +213,102 @@ h6 {
   margin-right: 8px;
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination .pagination-list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination .pagination-list button {
+  margin: 0;
+  cursor: pointer;
+  border-radius: 0;
+  color: #000000;
+  background-color: #ffffff;
+  width: 52px;
+}
+
+.pagination .pagination-list li:first-of-type button {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.pagination .pagination-list li:last-of-type button {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.pagination .pagination-list button:hover {
+  background-color: #004ec2;
+  color: #ffffff;
+}
+
+.pagination .pagination-list li {
+  position: relative;
+}
+
+.pagination .pagination-list .current button {
+  background-color: #525252;
+  color: #ffffff;
+}
+
+.pagination .pagination-list .current button:focus {
+  outline: none;
+}
+
+.pagination .pagination-list .current button:hover {
+  color: #ffffff;
+}
+
+.pagination .pagination-list .dropdown-list {
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 99;
+  display: none;
+  text-align: center;
+  width: 52px;
+}
+
+.bottom-pagination .pagination .pagination-list .dropdown-list {
+  bottom: 36px;
+}
+
+.pagination .pagination-list .open.dropdown-button {
+  background-color: #004ec2;
+  color: #ffffff;
+}
+
+.pagination .pagination-list .dropdown-list.open {
+  display: block;
+}
+
+.pagination .pagination-list .dropdown-list.open .current,
+.pagination .pagination-list .dropdown-list.open .current:hover {
+  background-color: #525252;
+}
+
+.pagination li .dropdown-list.open .dropdown-item {
+  padding: 16px;
+  border: solid 1px #525252;
+  color: #ffffff;
+  background-color: #004ec2;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.pagination li .dropdown-list.open .dropdown-item:hover {
+  background-color: #004ec2;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
 .pagination select {
   margin-right: 8px;
 }
@@ -223,27 +319,12 @@ h6 {
 }
 
 .list {
-  /* width: 65%; */
+  width: 65%;
   position: relative;
 }
 
 .repository-list .meta {
-  width: 100%;
-  display: flex;
-  flex-flow: wrap;
-}
-
-.repository-list .meta span {
-  color: #ffffff;
-  background-color: #525252;
-  border-radius: 8px;
-  margin-right: 8px;
-  padding: 6px 10px;
-  margin-bottom: 8px;
-}
-
-.repository-list .meta svg {
-  margin-right: 4px;
+  margin-bottom: 16px;
 }
 
 .repository-list .repository {
@@ -265,15 +346,22 @@ h6 {
   cursor: pointer;
 }
 
+.repository-list .inline-icon-button {
+  padding-left: 12px;
+}
+
+.repository-list .inline-icon-button svg {
+  margin-right: 6px;
+}
+
 .contributors-container {
   position: absolute;
-  width: 480px;
   top: 0;
   right: 0;
 }
 
 .sticky.contributors-container {
-  margin: 0 16px; 
+  margin: 0 16px;
 }
 
 .contributors-list {
@@ -427,6 +515,16 @@ button:hover {
     width: 100%;
   }
 
+  .pagination .pagination-list button {
+    display: none;
+  }
+
+  .pagination .pagination-list li:first-child button,
+  .pagination .pagination-list li:last-child button,
+  .pagination .pagination-list .dropdown button {
+    display: block;
+  }
+
   .repository .description {
     word-wrap: break-word;
   }
@@ -440,9 +538,9 @@ button:hover {
     margin-top: 8px;
   }
 
-  .contributors-container {
+  .main-content .contributors-container {
     position: fixed;
-    width: 100%;
+    width: auto;
   }
 
   .contributors-container .contributors-list {

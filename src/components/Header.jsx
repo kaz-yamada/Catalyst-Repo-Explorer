@@ -9,7 +9,6 @@ import { fetchGithubApi } from "../api/githubApi";
 
 const Header = () => {
   const [data, setData] = useState({});
-  //   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let ignore = false;

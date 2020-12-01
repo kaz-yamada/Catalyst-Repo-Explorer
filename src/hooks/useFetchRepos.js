@@ -1,5 +1,10 @@
 import { useEffect, useReducer, useRef } from "react";
-import { createUrl, fetchRepos, parseHeaderLinks } from "../api/githubApi";
+import {
+  createUrl,
+  fetchRepos,
+  getHeaderLinks,
+  parsePageNumber,
+} from "../api/githubApi";
 
 const initialState = {
   status: "IDLE",
@@ -85,7 +90,10 @@ const useFetchRepos = ({ page, sort, type }) => {
         try {
           const res = await fetchRepos(url);
           const json = await res.json();
-          const totalPages = parseHeaderLinks(res.headers.get("link"), page);
+          const links = getHeaderLinks(res.headers.get("link"));
+          let totalPages = state.totalPages;
+
+          if (links["last"]) totalPages = parsePageNumber(links["last"]);
 
           const data = { data: json, sort, type, totalPages };
 
@@ -107,6 +115,7 @@ const useFetchRepos = ({ page, sort, type }) => {
     return () => {
       cancelRequest = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, sort, type]);
 
   return { state };

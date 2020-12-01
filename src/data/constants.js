@@ -1,3 +1,8 @@
+export const SPACING = {
+  responsive: 768,
+  offset: 16,
+};
+
 export const FILTER_OPTIONS = [
   {
     label: "All",

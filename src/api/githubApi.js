@@ -39,20 +39,24 @@ export const createUrl = ({ page, sort, type }) => {
 export const fetchRepos = (url) => fetch(url, config);
 
 export const fetchReposWithParams = ({ page, sort, type }) => {
-  const url = new URL(`${BASE_URL}/repos`);
-  const params = {};
+  return fetch(createUrl({ page, sort, type }), config);
+};
 
-  if (page) params["page"] = page;
-  if (type) params["type"] = type;
-  if (sort) {
-    const [sortType, direction] = sort.split("-");
-    params["sort"] = sortType;
-    params["direction"] = direction;
-  }
+export const getHeaderLinks = (headerString) => {
+  if (!headerString) return {};
 
-  url.search = new URLSearchParams(params).toString();
+  const arr = headerString.split(",");
+  const links = {};
 
-  return fetch(url, config);
+  arr.forEach((ele) => {
+    const section = ele.split(";");
+    const url = section[0].replace(/<(.*)>/, "$1").trim();
+    const name = section[1].replace(/rel="(.*)"/, "$1").trim();
+
+    links[name] = url;
+  });
+
+  return links;
 };
 
 /**
@@ -62,7 +66,9 @@ export const fetchReposWithParams = ({ page, sort, type }) => {
  *
  * @returns {number}
  */
-export const parseHeaderLinks = (headerString, currentPage) => {
+export const getTotalPages = (headerString, currentPage) => {
+  if (!headerString) return 0;
+
   const arr = headerString.split(",");
   const links = {};
 
@@ -75,7 +81,7 @@ export const parseHeaderLinks = (headerString, currentPage) => {
     links[name] = url;
   });
 
-  return links["last"] ? getPageNumber(links["last"]) : currentPage;
+  return links["last"] ? parsePageNumber(links["last"]) : currentPage;
 };
 
 /**
@@ -83,7 +89,9 @@ export const parseHeaderLinks = (headerString, currentPage) => {
  * @param {string} url
  * @returns {number}
  */
-const getPageNumber = (url) => {
+export const parsePageNumber = (url) => {
+  if (!url) return;
+
   const queryString = url.split("?")[1];
   const pageNumber = queryString.split("=");
 
