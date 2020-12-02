@@ -1,131 +1,79 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import Filter from "./Filter";
 import Header from "./Header";
 import SortDropdown from "./SortDropdown";
 import Pagination from "./Pagination";
 import RepositoryList from "./RepositoryList";
-import ContributorsList from "./ContributorsList";
 
-import { FILTER_OPTIONS, SPACING, SORT_OPTIONS } from "../data/constants";
+import { FILTER_OPTIONS, SORT_OPTIONS } from "../data/constants";
 import useFetchRepos, { ACTIONS } from "../hooks/useFetchRepos";
 
 const App = () => {
-  const ref = useRef(null);
-
   const [type, setFilterType] = useState(FILTER_OPTIONS[0].value);
   const [sort, setSortOption] = useState(SORT_OPTIONS[0].value);
   const [page, setPage] = useState(1);
-  const [contributiors, setContributiors] = useState({});
-  const [isSticky, setIsSticky] = useState(false);
-  const [contentOffset, setContentOffset] = useState(0);
 
   const { state } = useFetchRepos({ page, sort, type });
   const { status, error, data, totalPages } = state;
 
-  const handleContributorClick = ({ name, url }) => {
-    if (contributiors.url !== url) {
-      handleResize();
-      setContributiors({ name, url });
-    }
-  };
+  if (error) {
+    console.error(state);
+    return <div className="error">{JSON.stringify(error)}</div>;
+  }
 
   const isDoneFetching = status !== ACTIONS.success;
 
-  const closeContributors = () => setContributiors({});
+  const handlePageChange = (value) => setPage(value);
 
-  const handleScroll = () => {
-    if (ref.current) {
-      setIsSticky(ref.current.getBoundingClientRect().top <= 0);
-    }
+  const handleFilterChange = (value) => {
+    setPage(1);
+    setFilterType(value);
   };
 
-  const handleResize = () => {
-    const offset =
-      window.innerWidth > SPACING.responsive
-        ? ref.current.offsetWidth + SPACING.offset
-        : 0;
-
-    setContentOffset(offset);
+  const handleSortChange = (value) => {
+    setPage(1);
+    setSortOption(value);
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("scroll", () => handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [ref]);
-
-  if (error) {
-    console.error(state);
-    return <div>{JSON.stringify(error)}</div>;
-  }
 
   return (
-    <div className={`App ${contributiors.url ? "contributors-open" : ""}`}>
+    <div className="App" data-testid="app">
       <Header />
       <div className="container options">
         <Filter
           checked={type}
           disabled={isDoneFetching}
-          onChange={(value) => {
-            setPage(1);
-            setFilterType(value);
-            closeContributors();
-          }}
+          onChange={handleFilterChange}
         />
         <SortDropdown
           selected={sort}
           disabled={isDoneFetching}
-          onChange={(value) => {
-            setSortOption(value);
-            closeContributors();
-            setPage(1);
-          }}
-        />
-      </div>
-      <div className="container">
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          disabled={isDoneFetching}
-          onChange={(value) => setPage(value)}
+          onChange={handleSortChange}
         />
       </div>
       <div className="main-content">
-        <div className="container list" ref={ref}>
+        <div className="top-pagination">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            disabled={isDoneFetching}
+            onChange={handlePageChange}
+          />
+        </div>
+        <div className="list">
           {isDoneFetching && <div className="loader"></div>}
           {!isDoneFetching && data && (
-            <RepositoryList
-              data={data}
-              filterBy={type}
-              sortBy={sort}
-              onContributorsClicked={handleContributorClick}
-            />
+            <RepositoryList data={data} filterBy={type} sortBy={sort} />
           )}
         </div>
-        {contributiors.url && !isDoneFetching && (
-          <div
-            className={`${isSticky ? "sticky" : ""} contributors-container`}
-            style={{ left: contentOffset }}
-          >
-            <ContributorsList
-              name={contributiors.name}
-              url={contributiors.url}
-              onClose={closeContributors}
-            />
-          </div>
-        )}
-      </div>
-      <div className="container bottom-pagination">
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          onChange={(value) => setPage(value)}
-        />
+        <div className="bottom-pagination">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            disabled={isDoneFetching}
+            onChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );

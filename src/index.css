@@ -24,7 +24,7 @@ h6 {
 }
 
 .App {
-  background-color: #525252;
+  background-color: #2d2d2d;
   width: 100%;
   height: 100%;
   padding: 16px;
@@ -203,7 +203,9 @@ h6 {
 
 .option-container select {
   font-size: 16px;
-  border-color: #525252;
+  border-color: #004ec2;
+  background-color: #004ec2;
+  color: #ffffff;
   border-radius: 4px;
   border-width: 2px;
   padding: 2px;
@@ -230,8 +232,6 @@ h6 {
   margin: 0;
   cursor: pointer;
   border-radius: 0;
-  color: #000000;
-  background-color: #ffffff;
   width: 52px;
 }
 
@@ -246,8 +246,8 @@ h6 {
 }
 
 .pagination .pagination-list button:hover {
-  background-color: #004ec2;
-  color: #ffffff;
+  color: #004ec2;
+  background-color: #ffffff;
 }
 
 .pagination .pagination-list li {
@@ -259,6 +259,7 @@ h6 {
   color: #ffffff;
 }
 
+.pagination .pagination-list button,
 .pagination .pagination-list .current button:focus {
   outline: none;
 }
@@ -280,9 +281,10 @@ h6 {
   bottom: 36px;
 }
 
-.pagination .pagination-list .open.dropdown-button {
-  background-color: #004ec2;
-  color: #ffffff;
+.pagination .pagination-list .open.dropdown-button,
+.pagination li .dropdown-list.open .dropdown-item:hover {
+  color: #004ec2;
+  background-color: #ffffff;
 }
 
 .pagination .pagination-list .dropdown-list.open {
@@ -292,6 +294,7 @@ h6 {
 .pagination .pagination-list .dropdown-list.open .current,
 .pagination .pagination-list .dropdown-list.open .current:hover {
   background-color: #525252;
+  color: #ffffff;
 }
 
 .pagination li .dropdown-list.open .dropdown-item {
@@ -303,24 +306,27 @@ h6 {
   padding: 8px;
 }
 
-.pagination li .dropdown-list.open .dropdown-item:hover {
-  background-color: #004ec2;
-  color: #ffffff;
-  border-color: #ffffff;
-}
-
 .pagination select {
   margin-right: 8px;
 }
 
+.top-pagination,
+.bottom-pagination {
+  padding: 16px;
+}
+
 .main-content {
   position: relative;
-  display: flex;
+  background-color: #ffffff;
+  border-radius: 8px;
+  /* display: flex; */
 }
 
 .list {
-  width: 65%;
+  border-top: solid 1px #525252;
+  border-bottom: solid 1px #525252;
   position: relative;
+  padding: 16px;
 }
 
 .repository-list .meta {
@@ -339,6 +345,7 @@ h6 {
 
 .repository-list .repository .links {
   display: flex;
+  margin-bottom: 16px;
 }
 
 .repository-list .repository .links .button {
@@ -354,6 +361,24 @@ h6 {
   margin-right: 6px;
 }
 
+.repository-list .top-contributors .loader {
+  padding: 16px;
+}
+
+.repository-list .top-contributors .loader::after {
+  width: 60px;
+  height: 60px;
+}
+
+.repository-list .link .show-more-icon {
+  margin-left: 4px;
+  display: inline-block;
+}
+
+.repository-list .show-more .link .show-more-icon {
+  transform: rotate(180deg);
+}
+
 .contributors-container {
   position: absolute;
   top: 0;
@@ -362,25 +387,6 @@ h6 {
 
 .sticky.contributors-container {
   margin: 0 16px;
-}
-
-.contributors-list {
-  background: #ffffff;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding-bottom: 16px;
-  width: 100%;
-}
-
-.contributors-list .contributors-header {
-  background-color: #525252;
-  color: #ffffff;
-  width: 100%;
-  padding: 16px;
-  margin-bottom: 16px;
 }
 
 .contributors-list .contributors-header h3 {
@@ -394,8 +400,7 @@ h6 {
 
 .contributors-list .contributors {
   display: flex;
-  margin-bottom: 16px;
-  flex-flow: column;
+  margin: 16px 0;
   align-items: center;
 }
 
@@ -403,7 +408,6 @@ h6 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: solid 1px #004ec2;
   padding: 8px;
   margin: 8px;
   text-decoration: none;
@@ -448,6 +452,14 @@ button {
 button:hover {
   color: #004ec2;
   background-color: #ffffff;
+}
+
+.link {
+  border: none;
+  background: none;
+  color: #004ec2;
+  padding: 0;
+  cursor: pointer;
 }
 
 .sticky {

@@ -9,7 +9,7 @@ const Filter = ({ onChange, checked, disabled }) => {
   };
 
   return (
-    <div className="filter option-container">
+    <div className="filter option-container" data-testid="filter-option">
       <span className="option-label">Filter</span>
       {FILTER_OPTIONS.map(({ label, value, id }) => (
         <label key={id} htmlFor={id}>

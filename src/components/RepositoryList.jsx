@@ -1,17 +1,13 @@
 import PropTypes from "prop-types";
 import RepositoryListItem from "./RepositoryListItem";
 
-const RepositoryList = ({ data, onContributorsClicked }) => {
+const RepositoryList = ({ data }) => {
   if (!data || !data.length) return <div></div>;
 
   return (
     <div className="repository-list" data-testid="repo-list">
       {data.map((item) => (
-        <RepositoryListItem
-          key={item.name}
-          data={item}
-          onContributorsClicked={onContributorsClicked}
-        />
+        <RepositoryListItem key={item.name} data={item} />
       ))}
     </div>
   );
@@ -31,7 +27,6 @@ RepositoryList.propTypes = {
       license: PropTypes.objectOf(PropTypes.string),
     })
   ).isRequired,
-  onContributorsClicked: PropTypes.func,
 };
 
 export default RepositoryList;

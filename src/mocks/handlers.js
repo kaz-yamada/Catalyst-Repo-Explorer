@@ -51,6 +51,34 @@ export const testrepos = [
   },
 ];
 
+const testContributors = [
+  {
+    login: "loginname",
+    html_url: "github url",
+    avatar_url: "jpg",
+  },
+  {
+    login: "loginname2",
+    html_url: "github url2",
+    avatar_url: "jpg2",
+  },
+  {
+    login: "loginname3",
+    html_url: "github url3",
+    avatar_url: "jpg3",
+  },
+  {
+    login: "loginnam4",
+    html_url: "github url4",
+    avatar_url: "jpg4",
+  },
+  {
+    login: "loginname5",
+    html_url: "github url5",
+    avatar_url: "jpg5",
+  },
+];
+
 export const handlers = [
   rest.post("", (req, res, ctx) => {
     return res(ctx.json(fakeOrg));
@@ -66,10 +94,9 @@ export const handlers = [
   }),
 
   rest.get(
-    "https://api.github.com/orgs/catalyst/repos/{owner}/{repo}/contributors",
+    "https://api.github.com/repos/kaz-yamada/Catalyst-Repo-Explorer/contributors",
     (req, res, ctx) => {
-      console.log("cont");
-      return res(ctx.json(testrepos));
+      return res(ctx.json(testContributors));
     }
   ),
 ];

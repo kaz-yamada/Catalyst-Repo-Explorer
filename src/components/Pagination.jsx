@@ -9,27 +9,23 @@ const Pagination = ({ currentPage, onChange, totalPages, maxItems = 6 }) => {
   const ref = useRef({});
 
   const mid = maxItems / 2;
-  const left = Array.from({ length: mid }, (_, i) => i + 1);
-  const right = Array.from(
-    { length: mid },
-    (_, i) => i + (totalPages - mid) + 1
-  );
-
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  const listCallback = (val) => {
-    return (
-      <li key={`key-${val}`} className={val === currentPage ? "current" : ""}>
-        <button
-          value={val}
-          className="pagination-anchor"
-          onClick={handleOnButtonClick}
-        >
-          {val}
-        </button>
-      </li>
-    );
-  };
+  const left = pages.slice(0, mid);
+  const right = pages.slice(-mid);
+
+  const listCallback = (val) => (
+    <li key={`key-${val}`} className={val === currentPage ? "current" : ""}>
+      <button
+        value={val}
+        className="pagination-anchor"
+        onClick={handleOnButtonClick}
+      >
+        {val}
+      </button>
+    </li>
+  );
+
   const handleOnButtonClick = (e) => {
     const { value } = e.target;
     const num = typeof value === "string" ? parseInt(value) : value;
@@ -46,11 +42,12 @@ const Pagination = ({ currentPage, onChange, totalPages, maxItems = 6 }) => {
   };
 
   const handleClickOutside = (e) => {
-    console.log(ref.current, e.target);
     if (ref.current && !ref.current.contains(e.target)) {
       setIsDropdownOpen(false);
     }
   };
+
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -61,22 +58,30 @@ const Pagination = ({ currentPage, onChange, totalPages, maxItems = 6 }) => {
 
   if (totalPages > 0) {
     return (
-      <div className="pagination option-container">
+      <div className="pagination">
         <ul className="pagination-list">
           <li>
-            <button onClick={handleOnButtonClick} value={currentPage - 1}>
+            <button
+              onClick={handleOnButtonClick}
+              value={currentPage - 1}
+              data-testid="previous-button"
+            >
               <InlineIcon icon={chevronLeft16} />
             </button>
           </li>
           {left.map(listCallback)}
           <li ref={ref} className="dropdown">
             <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              onClick={toggleDropdown}
               className={`dropdown-button ${isDropdownOpen ? "open" : ""}`}
+              data-testid="dropdown-button"
             >
               ...
             </button>
-            <div className={`dropdown-list ${isDropdownOpen ? "open" : ""}`}>
+            <div
+              className={`dropdown-list ${isDropdownOpen ? "open" : ""}`}
+              data-testid="dropdown-list"
+            >
               {pages.map((val) => (
                 <div
                   className={`dropdown-item ${

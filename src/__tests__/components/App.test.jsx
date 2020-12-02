@@ -1,30 +1,31 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+
+import { server, rest } from "../../mocks/server";
 
 import App from "../../components/App";
 
 describe("App component", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     render(<App />);
   });
+  test("renders component correctly", () => {
+    expect(screen.getByTestId("app")).toBeInTheDocument();
 
-  test("handle contributor click", async () => {
-    await waitFor(() => screen.getByTestId("repo-list"));
-
-    const listItems = screen.getAllByTestId("repo-item");
-    const { getByRole } = within(listItems[0]);
-    const button = getByRole("button");
-    fireEvent.click(button);
-
-    expect(await screen.findByTestId("contributors-list")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("filter-forked"));
+    fireEvent.change(screen.getByTestId("sort-dropdown"), {
+      target: { value: "created-desc" },
+    });
   });
 
-  test("handle scroll", () => {
-    fireEvent.scroll(window);
+  test("handles and displays error message", () => {
+    // const testErrorMessage = "TEST ERROR MESSAGE";
+    // server.use(
+    //   rest.get(
+    //     "https://api.github.com/orgs/catalyst/repos",
+    //     async (req, res, ctx) => {
+    //       return res(ctx.status(500), ctx.json({ message: testErrorMessage }));
+    //     }
+    //   )
+    // );;
   });
 });
